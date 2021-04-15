@@ -1,0 +1,33 @@
+
+
+---
+- name: "Nginx Installation"
+  become: yes
+  hosts: prod
+  tasks:
+    - name: "Installation epel-release"
+      yum:
+        name: epel-release
+        state: present
+        update_cache: yes
+      when:
+        ansible_os_family == "RedHat"
+
+    - name: "Installation nginx"
+      package:
+        name: nginx
+        state: present
+    - name: "start nginx"
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+    - name: "Allow http connection"
+      firewalld:
+        service: "http"
+        permanent: yes
+        immediate: yes
+        state: "enabled"
+...
+
+

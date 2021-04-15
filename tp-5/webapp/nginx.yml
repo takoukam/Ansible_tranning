@@ -1,0 +1,35 @@
+
+
+---
+- name: "Nginx Installation"
+  become: yes
+  hosts: prod
+  tasks:
+    - name: "Install epel-release"
+      yum:
+        name: epel-release
+        state: present
+        update_cache: yes
+    - name: "Install nginx"
+      yum:
+        name: nginx
+        state: present
+        update_cache: yes
+    - name: "start nginx"
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+    - name: "Allow http connection"
+      firewalld:
+        service: "http"
+        permanent: yes
+        state: "enabled"
+        immediate: yes
+
+
+
+...
+
+
+
